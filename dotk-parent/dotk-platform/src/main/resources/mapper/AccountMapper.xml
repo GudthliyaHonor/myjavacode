@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotk.platform.infra.mapper.AccountMapper">
+
+  <resultMap type="Account" id="AccountResult">
+    <result property="id"    column="id"    />
+    <result property="code"    column="code"    />
+    <result property="name"    column="name"    />
+    <result property="desc"    column="desc"    />
+    <result property="codeDisplay"    column="code_display"    />
+    <result property="status"    column="status"    />
+    <result property="isDemo"    column="is_demo"    />
+    <result property="created"    column="created"    />
+    <result property="updated"    column="updated"    />
+  </resultMap>
+
+  <sql id="selectAccountVo">
+    select id, code, name, desc, code_display, status, is_demo, created, updated from account
+  </sql>
+
+  <select id="selectAccountList" parameterType="Account" resultMap="AccountResult">
+    <include refid="selectAccountVo"/>
+    <where>
+      <if test="code != null  and code != ''"> and code = #{code}</if>
+      <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+      <if test="desc != null  and desc != ''"> and desc = #{desc}</if>
+      <if test="codeDisplay != null  and codeDisplay != ''"> and code_display = #{codeDisplay}</if>
+      <if test="status != null "> and status = #{status}</if>
+      <if test="isDemo != null "> and is_demo = #{isDemo}</if>
+      <if test="created != null "> and created = #{created}</if>
+      <if test="updated != null "> and updated = #{updated}</if>
+    </where>
+  </select>
+
+  <select id="selectAccountById" parameterType="Integer" resultMap="AccountResult">
+    <include refid="selectAccountVo"/>
+    where id = #{id}
+  </select>
+
+  <insert id="insertAccount" parameterType="Account" useGeneratedKeys="true" keyProperty="id">
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="code != null and code != ''">code,</if>
+      <if test="name != null and name != ''">name,</if>
+      <if test="desc != null">desc,</if>
+      <if test="codeDisplay != null">code_display,</if>
+      <if test="status != null">status,</if>
+      <if test="isDemo != null">is_demo,</if>
+      <if test="created != null">created,</if>
+      <if test="updated != null">updated,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="code != null and code != ''">#{code},</if>
+      <if test="name != null and name != ''">#{name},</if>
+      <if test="desc != null">#{desc},</if>
+      <if test="codeDisplay != null">#{codeDisplay},</if>
+      <if test="status != null">#{status},</if>
+      <if test="isDemo != null">#{isDemo},</if>
+      <if test="created != null">#{created},</if>
+      <if test="updated != null">#{updated},</if>
+    </trim>
+  </insert>
+
+  <update id="updateAccount" parameterType="Account">
+    update account
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="code != null and code != ''">code = #{code},</if>
+      <if test="name != null and name != ''">name = #{name},</if>
+      <if test="desc != null">desc = #{desc},</if>
+      <if test="codeDisplay != null">code_display = #{codeDisplay},</if>
+      <if test="status != null">status = #{status},</if>
+      <if test="isDemo != null">is_demo = #{isDemo},</if>
+      <if test="created != null">created = #{created},</if>
+      <if test="updated != null">updated = #{updated},</if>
+    </trim>
+    where id = #{id}
+  </update>
+
+  <delete id="deleteAccountById" parameterType="Integer">
+    delete from account where id = #{id}
+  </delete>
+
+  <delete id="deleteAccountByIds" parameterType="String">
+    delete from account where id in
+    <foreach item="id" collection="array" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </delete>
+</mapper>

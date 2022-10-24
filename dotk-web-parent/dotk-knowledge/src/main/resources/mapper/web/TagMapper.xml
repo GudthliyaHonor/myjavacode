@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotk.knowledge.infra.mapper.TagMapper">
+
+    <insert id="create" parameterType="com.dotk.knowledge.domain.tag.entity.TagDo"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into tag (name, aid,category_id,uses,type,eid,username,form,status,
+                            created,updated,updated_eid,deleted_eid,deleted)
+        values (#{name}, #{aid}, #{categoryId}, #{uses}, #{type}, #{eid}, #{username}, #{form},
+                #{status},#{created},#{updated},#{updatedEid},#{deletedEid},#{deleted})
+    </insert>
+
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotk.web.infra.mapper.SampleMapper">
+
+  <resultMap type="com.dotk.web.domain.entity.Sample" id="SampleResult">
+    <result property="id"    column="id"    />
+    <result property="name"    column="name"    />
+    <result property="status"    column="status"    />
+    <result property="created"    column="created"    />
+    <result property="updated"    column="updated"    />
+  </resultMap>
+
+  <sql id="selectSampleVo">
+    select id, name, status, created, updated from sample
+  </sql>
+
+  <select id="selectSampleList" parameterType="com.dotk.web.domain.entity.Sample" resultMap="SampleResult">
+    <include refid="selectSampleVo"/>
+    <where>
+      <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+      <if test="status != null "> and status = #{status}</if>
+      <if test="created != null "> and created = #{created}</if>
+      <if test="updated != null "> and updated = #{updated}</if>
+    </where>
+  </select>
+
+  <select id="selectSampleById" parameterType="Integer" resultMap="SampleResult">
+    <include refid="selectSampleVo"/>
+    where id = #{id}
+  </select>
+
+  <insert id="insertSample" parameterType="com.dotk.web.domain.entity.Sample" useGeneratedKeys="true" keyProperty="id">
+    insert into sample
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null and name != ''">name,</if>
+      <if test="status != null">status,</if>
+      <if test="created != null">created,</if>
+      <if test="updated != null">updated,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null and name != ''">#{name},</if>
+      <if test="status != null">#{status},</if>
+      <if test="created != null">#{created},</if>
+      <if test="updated != null">#{updated},</if>
+    </trim>
+  </insert>
+
+  <update id="updateSample" parameterType="com.dotk.web.domain.entity.Sample">
+    update sample
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="name != null and name != ''">name = #{name},</if>
+      <if test="status != null">status = #{status},</if>
+      <if test="created != null">created = #{created},</if>
+      <if test="updated != null">updated = #{updated},</if>
+    </trim>
+    where id = #{id}
+  </update>
+
+  <delete id="deleteSampleById" parameterType="Integer">
+    delete from sample where id = #{id}
+  </delete>
+
+  <delete id="deleteSampleByIds" parameterType="String">
+    delete from sample where id in
+    <foreach item="id" collection="array" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </delete>
+</mapper>

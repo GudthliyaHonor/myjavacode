@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dotk.examcenter.infra.mapper.QuestionBankMapper">
+
+    <insert id="createQuestionBank" useGeneratedKeys="true" keyProperty="id" parameterType="com.dotk.examcenter.domain.questionbank.entity.QuestionBankEntity">
+        insert into exam_question_bank(
+        <if test="title != null and title != ''">title,</if>
+        <if test="isPractice != null">is_practice,</if>
+        <if test="isShared != null">is_shared,</if>
+        create_time
+        )values(
+        <if test="title != null and title != ''">#{title},</if>
+        <if test="isPractice != null ">#{isPractice},</if>
+        <if test="isShared != null">#{isShared},</if>
+        sysdate()
+        )
+    </insert>
+
+    <select id="getInfoById" parameterType="Long" resultType="com.dotk.examcenter.domain.questionbank.entity.QuestionBankEntity">
+        select id, title,create_time,is_practice,is_shared
+        from exam_question_bank
+        where id = #{id}
+    </select>
+
+
+
+</mapper>
