@@ -4,6 +4,7 @@ package com.dotk.core.enums;
  * 人员条件类型
  */
 public enum GroupsType {
+    GROUPS_TYPE_DEFAULT(0, "默认"),
     GROUPS_TYPE_ALL(1, "全公司"),
     GROUPS_TYPE_DEPT(2, "指定部门"),
     GROUPS_TYPE_GROUP(3, "指定人群"),

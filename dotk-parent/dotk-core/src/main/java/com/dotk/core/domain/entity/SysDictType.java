@@ -69,16 +69,6 @@ public class SysDictType extends BaseEntity
         this.dictType = dictType;
     }
 
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(String status)
-    {
-        this.status = status;
-    }
-    
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -86,11 +76,10 @@ public class SysDictType extends BaseEntity
             .append("dictName", getDictName())
             .append("dictType", getDictType())
             .append("status", getStatus())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
+            .append("createdBy", getCreatedBy())
+            .append("created", getCreated())
+            .append("updatedBy", getUpdatedBy())
+            .append("updated", getUpdated())
             .toString();
     }
 }

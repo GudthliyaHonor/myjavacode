@@ -1,7 +1,7 @@
 package com.dotk.core.utils;
 
 import com.dotk.core.constant.HttpStatus;
-import com.dotk.core.domain.model.LoginUser;
+import com.dotk.core.domain.model.AppContext;
 import com.dotk.core.exception.ServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,26 +21,11 @@ public class SecurityUtils
     {
         try
         {
-            return getLoginUser().getUserId();
+            return getAppContext().getUserId();
         }
         catch (Exception e)
         {
             throw new ServiceException("获取用户ID异常", HttpStatus.UNAUTHORIZED);
-        }
-    }
-
-    /**
-     * 获取部门ID
-     **/
-    public static Long getDeptId()
-    {
-        try
-        {
-            return getLoginUser().getDeptId();
-        }
-        catch (Exception e)
-        {
-            throw new ServiceException("获取部门ID异常", HttpStatus.UNAUTHORIZED);
         }
     }
     
@@ -51,7 +36,7 @@ public class SecurityUtils
     {
         try
         {
-            return getLoginUser().getUsername();
+            return getAppContext().getUsername();
         }
         catch (Exception e)
         {
@@ -62,11 +47,11 @@ public class SecurityUtils
     /**
      * 获取用户
      **/
-    public static LoginUser getLoginUser()
+    public static AppContext getAppContext()
     {
         try
         {
-            return (LoginUser) getAuthentication().getPrincipal();
+            return (AppContext) getAuthentication().getPrincipal();
         }
         catch (Exception e)
         {
@@ -108,7 +93,8 @@ public class SecurityUtils
     }
 
     /**
-     * 是否为管理员
+     *
+     * TODO: 是否为管理员
      * 
      * @param userId 用户ID
      * @return 结果

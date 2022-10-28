@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @ControllerAdvice
 public class DemoReportController {
 
-  @Anonymous
+//  @Anonymous
   @GetMapping("/report/my/demo")
   public String myReport() {
     return "Hello dotk report";

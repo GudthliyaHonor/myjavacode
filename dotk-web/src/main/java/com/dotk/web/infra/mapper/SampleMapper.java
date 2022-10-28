@@ -1,10 +1,8 @@
 package com.dotk.web.infra.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
-
 import com.dotk.web.domain.entity.Sample;
+import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 【请填写功能名称】Mapper接口

@@ -143,16 +143,6 @@ public class SysDictData extends BaseEntity
     {
         this.isDefault = isDefault;
     }
-
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(String status)
-    {
-        this.status = status;
-    }
     
     @Override
     public String toString() {
@@ -166,11 +156,10 @@ public class SysDictData extends BaseEntity
             .append("listClass", getListClass())
             .append("isDefault", getIsDefault())
             .append("status", getStatus())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
+            .append("createdBy", getCreatedBy())
+            .append("created", getCreated())
+            .append("updatedBy", getUpdatedBy())
+            .append("updated", getUpdated())
             .toString();
     }
 }

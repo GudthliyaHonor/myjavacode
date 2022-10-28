@@ -9,11 +9,13 @@ import org.springframework.core.annotation.AliasFor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @RestController
+@RestControllerAdvice
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public @interface ApiRestController {
   @AliasFor(annotation = RequestMapping.class)

@@ -1,10 +1,13 @@
 package com.dotk.core.domain;
 
+import com.dotk.core.annotation.Excel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 /**
  * Entity基类
@@ -15,87 +18,79 @@ public class BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    /** 搜索值 */
-    private String searchValue;
+    @Id
+    private Long id;
 
-    /** 创建者 */
-    private String createBy;
+    /** 条目状态（1正常 0删除） */
+    private Integer status;
 
     /** 创建时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
-
-    /** 更新者 */
-    private String updateBy;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "创建时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date created;
 
     /** 更新时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "更新时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date updated;
 
-    /** 备注 */
-    private String remark;
+    /** 创建者 */
+    private Long createdBy;
 
-    /** 请求参数 */
+    /** 更新者 */
+    private Long updatedBy;
+
+    @Transient
     private Map<String, Object> params;
 
-    public String getSearchValue()
-    {
-        return searchValue;
+    public Long getId() {
+        return id;
     }
 
-    public void setSearchValue(String searchValue)
-    {
-        this.searchValue = searchValue;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getCreateBy()
-    {
-        return createBy;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCreateBy(String createBy)
-    {
-        this.createBy = createBy;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public Date getCreateTime()
+    public void setCreated(Date created)
     {
-        return createTime;
+        this.created = created;
     }
 
-    public void setCreateTime(Date createTime)
+    public void setUpdated(Date updated)
     {
-        this.createTime = createTime;
+        this.updated = updated;
     }
 
-    public String getUpdateBy()
-    {
-        return updateBy;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setUpdateBy(String updateBy)
-    {
-        this.updateBy = updateBy;
+    public Date getUpdated() {
+        return updated;
     }
 
-    public Date getUpdateTime()
-    {
-        return updateTime;
+    public Long getCreatedBy() {
+        return createdBy;
     }
 
-    public void setUpdateTime(Date updateTime)
-    {
-        this.updateTime = updateTime;
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public String getRemark()
-    {
-        return remark;
+    public Long getUpdatedBy() {
+        return updatedBy;
     }
 
-    public void setRemark(String remark)
-    {
-        this.remark = remark;
+    public void setUpdatedBy(Long updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public Map<String, Object> getParams()

@@ -1,7 +1,6 @@
 package com.dotk.web.domain.service;
 
 import com.dotk.web.domain.entity.Sample;
-
 import java.util.List;
 
 /**

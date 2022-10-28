@@ -1,8 +1,7 @@
 package com.dotk.core.utils.valid;
 
-import org.springframework.util.StringUtils;
-
 import java.util.regex.Pattern;
+import org.springframework.util.StringUtils;
 
 public class ValidationUtils {
 

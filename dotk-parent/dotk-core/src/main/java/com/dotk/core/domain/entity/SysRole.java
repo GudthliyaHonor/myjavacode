@@ -158,16 +158,6 @@ public class SysRole extends BaseEntity
         this.deptCheckStrictly = deptCheckStrictly;
     }
 
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(String status)
-    {
-        this.status = status;
-    }
-
     public String getDelFlag()
     {
         return delFlag;
@@ -230,11 +220,10 @@ public class SysRole extends BaseEntity
             .append("deptCheckStrictly", isDeptCheckStrictly())
             .append("status", getStatus())
             .append("delFlag", getDelFlag())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
+            .append("createdBy", getCreatedBy())
+            .append("created", getCreated())
+            .append("updatedBy", getUpdatedBy())
+            .append("updated", getUpdated())
             .toString();
     }
 }

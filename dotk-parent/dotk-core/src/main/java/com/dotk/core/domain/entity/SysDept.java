@@ -141,15 +141,6 @@ public class SysDept extends BaseEntity
         this.email = email;
     }
 
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(String status)
-    {
-        this.status = status;
-    }
 
     public String getDelFlag()
     {
@@ -194,10 +185,10 @@ public class SysDept extends BaseEntity
             .append("email", getEmail())
             .append("status", getStatus())
             .append("delFlag", getDelFlag())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
+            .append("createdBy", getCreatedBy())
+            .append("created", getCreated())
+            .append("updatedBy", getUpdatedBy())
+            .append("updated", getUpdated())
             .toString();
     }
 }

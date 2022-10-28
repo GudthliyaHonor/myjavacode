@@ -1,8 +1,7 @@
 package com.dotk.core.domain.dto;
 
-import lombok.Data;
-
 import javax.validation.constraints.Min;
+import lombok.Data;
 
 /**
  * @author hailanzhou

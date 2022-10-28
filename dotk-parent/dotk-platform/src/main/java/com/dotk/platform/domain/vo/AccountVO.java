@@ -1,7 +1,9 @@
 package com.dotk.platform.domain.vo;
 
 import java.util.Date;
+import lombok.Data;
 
+@Data
 public class AccountVO {
   private Integer id;
   private String code;

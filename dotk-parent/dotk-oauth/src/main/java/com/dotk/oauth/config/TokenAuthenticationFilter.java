@@ -1,7 +1,8 @@
 package com.dotk.oauth.config;
 
+import com.dotk.core.domain.AppContextHolder;
+import com.dotk.core.domain.model.AppContext;
 import com.dotk.oauth.app.service.TokenService;
-import com.dotk.oauth.domain.model.LoginUser;
 import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -27,16 +28,17 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, javax.servlet.FilterChain filterChain)
       throws ServletException, IOException {
 
-    LoginUser loginUser = tokenService.getLoginUser(request);
+    AppContext appContext = tokenService.getLoginUser(request);
 
 //    Assert.notNull(loginUser, "登录已过期请重新登录");
 
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (loginUser != null && authentication == null) {
-      UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
+    if (appContext != null && authentication == null) {
+      UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(appContext, null, appContext.getAuthorities());
       userToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
       SecurityContextHolder.getContext().setAuthentication(userToken);
+      AppContextHolder.setContext(appContext);
     }
 
     filterChain.doFilter(request, response);

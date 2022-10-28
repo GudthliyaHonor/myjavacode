@@ -1,12 +1,11 @@
 package com.dotk.web.api.dto;
 
 import com.dotk.web.enums.UserTypeEnum;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor

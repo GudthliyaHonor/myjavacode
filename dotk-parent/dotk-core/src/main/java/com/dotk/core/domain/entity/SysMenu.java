@@ -192,16 +192,6 @@ public class SysMenu extends BaseEntity
         this.visible = visible;
     }
 
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(String status)
-    {
-        this.status = status;
-    }
-
     @Size(min = 0, max = 100, message = "权限标识长度不能超过100个字符")
     public String getPerms()
     {
@@ -249,11 +239,10 @@ public class SysMenu extends BaseEntity
             .append("status ", getStatus())
             .append("perms", getPerms())
             .append("icon", getIcon())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
+            .append("createdBy", getCreatedBy())
+            .append("created", getCreated())
+            .append("updatedBy", getUpdatedBy())
+            .append("updated", getUpdated())
             .toString();
     }
 }

@@ -14,59 +14,61 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 /**
  * 设置Anonymous注解允许匿名访问的url
- * 
+ *
  * @author ruoyi
  */
 @Configuration
-public class PermitAllUrlProperties implements InitializingBean, ApplicationContextAware
-{
-    private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
+public class PermitAllUrlProperties implements InitializingBean, ApplicationContextAware {
 
-    private ApplicationContext applicationContext;
+  private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
 
-    private List<String> urls = new ArrayList<>();
+  private ApplicationContext applicationContext;
 
-    public String ASTERISK = "*";
+  private List<String> urls = new ArrayList<>();
 
-    @Override
-    public void afterPropertiesSet()
-    {
-        RequestMappingHandlerMapping mapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
-        Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
+  public String ASTERISK = "*";
 
-        map.keySet().forEach(info -> {
-            HandlerMethod handlerMethod = map.get(info);
+  @Override
+  public void afterPropertiesSet() {
+    RequestMappingHandlerMapping mapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
+    Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 
-            // 获取方法上边的注解 替代path variable 为 *
-            Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
-            Optional.ofNullable(method).ifPresent(anonymous -> info.getPatternsCondition().getPatterns()
-                    .forEach(url -> urls.add(RegExUtils.replaceAll(url, PATTERN, ASTERISK))));
+    map.keySet().forEach(info -> {
+      HandlerMethod handlerMethod = map.get(info);
 
-            // 获取类上边的注解, 替代path variable 为 *
-            Anonymous controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Anonymous.class);
-            Optional.ofNullable(controller).ifPresent(anonymous -> info.getPatternsCondition().getPatterns()
-                    .forEach(url -> urls.add(RegExUtils.replaceAll(url, PATTERN, ASTERISK))));
-        });
-    }
+      // 获取方法上边的注解 替代path variable 为 *
+      Anonymous method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Anonymous.class);
+      Optional.ofNullable(method).ifPresent(anonymous -> {
+        PatternsRequestCondition patternCondition = info.getPatternsCondition();
+        if (null != patternCondition) {
+          patternCondition.getPatterns()
+              .forEach(url -> urls.add(RegExUtils.replaceAll(url, PATTERN, ASTERISK)));
+        }
+      });
 
-    @Override
-    public void setApplicationContext(ApplicationContext context) throws BeansException
-    {
-        this.applicationContext = context;
-    }
+      // 获取类上边的注解, 替代path variable 为 *
+      Anonymous controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Anonymous.class);
+      Optional.ofNullable(controller).ifPresent(anonymous -> info.getPatternsCondition().getPatterns()
+          .forEach(url -> urls.add(RegExUtils.replaceAll(url, PATTERN, ASTERISK))));
+    });
+  }
 
-    public List<String> getUrls()
-    {
-        return urls;
-    }
+  @Override
+  public void setApplicationContext(ApplicationContext context) throws BeansException {
+    this.applicationContext = context;
+  }
 
-    public void setUrls(List<String> urls)
-    {
-        this.urls = urls;
-    }
+  public List<String> getUrls() {
+    return urls;
+  }
+
+  public void setUrls(List<String> urls) {
+    this.urls = urls;
+  }
 }

@@ -1,10 +1,9 @@
 package com.dotk.core.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.alibaba.fastjson2.JSON;
 import com.dotk.core.constant.HttpStatus;
 import com.dotk.core.domain.AjaxResult;
-import com.dotk.core.domain.model.LoginUser;
+import com.dotk.core.domain.model.AppContext;
 import com.dotk.core.page.PageDomain;
 import com.dotk.core.page.TableDataInfo;
 import com.dotk.core.page.TableSupport;
@@ -13,11 +12,11 @@ import com.dotk.core.utils.PageUtils;
 import com.dotk.core.utils.SecurityUtils;
 import com.dotk.core.utils.StringUtils;
 import com.dotk.core.utils.sql.SqlUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
@@ -28,8 +27,6 @@ import org.springframework.web.bind.annotation.InitBinder;
  */
 public class BaseController
 {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     /**
      * 将前台传递过来的日期格式的字符串，自动转化为Date类型
      */
@@ -45,6 +42,15 @@ public class BaseController
                 setValue(DateUtils.parseDate(text));
             }
         });
+//        binder.registerCustomEditor(T.class, new PropertyEditorSupport()
+//        {
+//            @Override
+//            public Object getValue() {
+//                log.info("initBinder: " + String.valueOf(super.getValue()));
+//                return super.getValue();
+//            }
+//        });
+
     }
 
     /**
@@ -165,9 +171,9 @@ public class BaseController
     /**
      * 获取用户缓存信息
      */
-    public LoginUser getLoginUser()
+    public AppContext getLoginUser()
     {
-        return SecurityUtils.getLoginUser();
+        return SecurityUtils.getAppContext();
     }
 
     /**
@@ -178,13 +184,6 @@ public class BaseController
         return getLoginUser().getUserId();
     }
 
-    /**
-     * 获取登录部门id
-     */
-    public Long getDeptId()
-    {
-        return getLoginUser().getDeptId();
-    }
 
     /**
      * 获取登录用户名
@@ -192,5 +191,24 @@ public class BaseController
     public String getUsername()
     {
         return getLoginUser().getUsername();
+    }
+
+    /**
+     * 转换GET请求里的JSON参数。
+     *
+     * @param sourceString
+     * @param objectClass
+     * @param <T> 对应目标的POJO类
+     * @return
+     */
+    protected <T> T parseParam(String sourceString, Class<T> objectClass) {
+        try {
+            return null != sourceString ? JSON.parseObject(sourceString, objectClass): objectClass.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

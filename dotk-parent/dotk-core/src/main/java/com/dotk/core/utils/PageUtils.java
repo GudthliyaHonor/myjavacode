@@ -1,9 +1,9 @@
 package com.dotk.core.utils;
 
-import com.github.pagehelper.PageHelper;
 import com.dotk.core.page.PageDomain;
 import com.dotk.core.page.TableSupport;
 import com.dotk.core.utils.sql.SqlUtil;
+import com.github.pagehelper.PageHelper;
 
 /**
  * 分页工具类

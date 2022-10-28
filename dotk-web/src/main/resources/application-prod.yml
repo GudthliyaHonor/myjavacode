@@ -1,0 +1,40 @@
+server:
+  port: 9501
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  redis:
+    host: localhost
+    port: 6379
+  datasource:
+    url: jdbc:mysql://192.168.0.226:13406/learning?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: yidianzhishi
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  typeAliasesPackage: com.dotk.**.infra.mapper
+  mapper-locations:
+  - classpath*:mapper/**/*Mapper.xml
+  - classpath*:mapper/*Mapper.xml
+
+# 用户配置
+user:
+  password:
+    # 密码最大错误次数
+    maxRetryCount: 5
+    # 密码锁定时间（默认10分钟）
+    lockTime: 10
+
+# token配置
+token:
+    # 令牌自定义标识
+    header: Auth-Token
+    # 令牌密钥
+    secret: abcdefghijklmnopqrstuvwxyz111122222222abcdefghijklmnopqrstuvwxyz111122222222
+    # 令牌有效期（默认30分钟）
+    expireTime: 30

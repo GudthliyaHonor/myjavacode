@@ -16,25 +16,36 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
-      <version>5.3.8</version>
+      <version>${spring.web.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.dotk</groupId>
       <artifactId>dotk-core</artifactId>
-      <version>1.0.0</version>
+      <version>${dotk.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
-      <version>2.12.3</version>
+      <version>${jackson.annotations.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.11</version>
+      <version>${commons.lang3.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.dotk</groupId>
+      <artifactId>dotk-oauth</artifactId>
+      <version>${dotk.version}</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

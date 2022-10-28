@@ -1,63 +1,71 @@
 package com.dotk.platform.infra.mapper;
 
 
+import com.dotk.core.domain.model.Tenant;
 import java.util.List;
-import com.dotk.platform.domain.entity.Account;
 
 /**
- * 【请填写功能名称】Mapper接口
+ * 公司Mapper接口
  *
- * @author ruoyi
+ * @author lgh <liguanghui@yidianzhishi.com>
  * @date 2022-09-08
  */
 public interface AccountMapper
 {
   /**
-   * 查询【请填写功能名称】
+   * 通过ID获取公司信息。
    *
-   * @param id 【请填写功能名称】主键
-   * @return 【请填写功能名称】
+   * @param id 公司ID
+   * @return
    */
-  public Account selectAccountById(Integer id);
+  public Tenant selectAccountById(Long id);
 
   /**
-   * 查询【请填写功能名称】列表
+   * 通过公司code获取公司信息。
    *
-   * @param account 【请填写功能名称】
-   * @return 【请填写功能名称】集合
+   * @param code
+   * @return
    */
-  public List<Account> selectAccountList(Account account);
+  public Tenant selectAccountByCode(String code);
 
   /**
-   * 新增【请填写功能名称】
+   * 查询公司列表
    *
-   * @param account 【请填写功能名称】
+   * @param tenant 租户信息
+   * @return 公司集合
+   */
+  public List<Tenant> selectAccountList(Tenant tenant);
+
+  /**
+   * 新增公司
+   *
+   * @param tenant 租户信息
    * @return 结果
    */
-  public int insertAccount(Account account);
+  public int insertAccount(Tenant tenant);
 
   /**
-   * 修改【请填写功能名称】
+   * 修改公司
    *
-   * @param account 【请填写功能名称】
+   * @param tenant 公司
    * @return 结果
    */
-  public int updateAccount(Account account);
+  public int updateAccount(Tenant tenant);
 
   /**
-   * 删除【请填写功能名称】
+   * 删除公司
    *
-   * @param id 【请填写功能名称】主键
+   * @param id 公司主键
    * @return 结果
    */
-  public int deleteAccountById(Integer id);
+  public int deleteAccountById(Long id);
 
   /**
-   * 批量删除【请填写功能名称】
+   * 批量删除公司
    *
    * @param ids 需要删除的数据主键集合
    * @return 结果
    */
-  public int deleteAccountByIds(Integer[] ids);
+  public int deleteAccountByIds(Long[] ids);
 }
 

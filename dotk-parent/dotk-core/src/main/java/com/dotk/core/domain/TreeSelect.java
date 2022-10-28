@@ -1,8 +1,8 @@
 package com.dotk.core.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.dotk.core.domain.entity.SysDept;
 import com.dotk.core.domain.entity.SysMenu;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;

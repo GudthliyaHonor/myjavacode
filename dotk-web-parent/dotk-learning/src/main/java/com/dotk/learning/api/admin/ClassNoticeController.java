@@ -4,20 +4,23 @@ import com.alibaba.fastjson2.JSONObject;
 import com.dotk.core.annotation.ApiRestController;
 import com.dotk.core.controller.BaseController;
 import com.dotk.core.domain.AjaxResult;
-import com.dotk.learning.api.admin.dto.ClassNoticeDto;
-import com.dotk.learning.api.admin.dto.PageDto;
-import com.dotk.learning.api.admin.dto.query.ClassNoticeListQuery;
-import com.dotk.learning.api.admin.vo.ClassNoticeListVo;
-import com.dotk.learning.domain.notice.entity.ClassNoticeEntity;
-import com.dotk.learning.domain.notice.service.ClassNoticeService;
+import com.dotk.core.domain.dto.PageDTO;
+import com.dotk.learning.api.admin.dto.learning.ClassNoticeDto;
+import com.dotk.learning.api.admin.dto.learning.ClassNoticeSetTopDto;
+import com.dotk.learning.domain.learning.bo.ClassNoticeBo;
+import com.dotk.learning.domain.learning.entity.ClassNoticeEntity;
+import com.dotk.learning.domain.learning.service.ClassNoticeService;
+import com.dotk.learning.domain.learning.transfer.ClassNoticeTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Map;
 
+/**
+ * 班级公告
+ */
 @ApiRestController
 @Validated
 public class ClassNoticeController extends BaseController {
@@ -25,44 +28,71 @@ public class ClassNoticeController extends BaseController {
     @Autowired
     private ClassNoticeService classNoticeService;
 
+    /**
+     * 公告列表
+     *
+     * @param learningId
+     * @param keyword
+     * @param pg
+     * @return
+     */
     @GetMapping("class/notice/list")
-    public AjaxResult classNoticeList(
-            @NotNull(message = "learning_id不能为空") Integer learning_id,
-            String keyword,
-            String pg
+    public AjaxResult list(
+            @RequestParam(value = "learning_id") Long learningId,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "pg", required = false) String pg
     ) {
         //注入dto
-        PageDto pageDto = JSONObject.parseObject(pg, PageDto.class);
-        //query对象
-        ClassNoticeListQuery query = new ClassNoticeListQuery(learning_id, keyword, pageDto.calcOffset(), pageDto.getItemsPerPage());
-        query.setAid(1018);
-        query.setStatus(1);
-        //查询列表
-        List<ClassNoticeListVo> list = classNoticeService.classNoticeList(query);
+        PageDTO pageDto = JSONObject.parseObject(pg, PageDTO.class);
 
-        return AjaxResult.success(list);
+        ClassNoticeBo classNoticeBo = new ClassNoticeBo();
+        classNoticeBo.setLearningId(learningId);
+        classNoticeBo.setKeyword(keyword);
+        classNoticeBo.setPage(pageDto.getPage());
+        classNoticeBo.setSize(pageDto.getItemsPerPage());
+
+        //查询列表
+        Map<String, Object> map = classNoticeService.list(classNoticeBo);
+
+        return success(map);
     }
 
     /**
-     * 新建班级公告
+     * 公告详情
+     *
+     * @param noticeId
+     * @return
+     */
+    @GetMapping("class/notice/detail")
+    public AjaxResult detail(@RequestParam("id") Long noticeId) {
+        Map<String, Object> map = classNoticeService.detail(noticeId);
+        return success(map);
+    }
+
+    /**
+     * 新建公告
      */
     @PutMapping("/class/notice/create")
-    public AjaxResult classNoticeCreate(@Valid @RequestBody ClassNoticeDto classNoticeCreateDto) {
-        Integer id = classNoticeService.classNoticeCreate(classNoticeCreateDto);
-        return AjaxResult.success(id);
+    public AjaxResult create(@Valid @RequestBody ClassNoticeDto classNoticeDto) {
+        ClassNoticeEntity classNoticeEntity = ClassNoticeTransfer.INSTANCE.dtoToEntity(classNoticeDto.getRecord());
+
+        Long id = classNoticeService.create(classNoticeEntity);
+        return success(id);
     }
 
     /**
-     * 编辑班级公告
+     * 编辑公告
      */
     @PostMapping("/class/notice/edit")
-    public AjaxResult classNoticeEdit(@Valid @RequestBody ClassNoticeDto classNoticeCreateDto) {
-        Boolean result = classNoticeService.classNoticeEdit(classNoticeCreateDto);
+    public AjaxResult edit(@Valid @RequestBody ClassNoticeDto classNoticeDto) {
+        ClassNoticeEntity classNoticeEntity = ClassNoticeTransfer.INSTANCE.dtoToEntity(classNoticeDto.getRecord());
+        classNoticeEntity.setId(classNoticeDto.getId());
 
-        if (result) {
-            return AjaxResult.success("更新成功");
+        Integer res = classNoticeService.edit(classNoticeEntity);
+        if (res > 0) {
+            return success("更新成功");
         } else {
-            return AjaxResult.error("更新失败");
+            return error("更新失败");
         }
     }
 
@@ -70,18 +100,25 @@ public class ClassNoticeController extends BaseController {
      * 删除公告
      */
     @DeleteMapping("/class/notice/{notice_id}/delete")
-    public AjaxResult classNoticeDelete(@PathVariable("notice_id") Integer notice_id) {
-        ClassNoticeEntity classNoticeEntity = new ClassNoticeEntity();
-        classNoticeEntity.setId(notice_id);
-        classNoticeEntity.setStatus(0);
+    public AjaxResult delete(@PathVariable("notice_id") Long noticeId) {
 
-        Boolean result = classNoticeService.classNoticeDelete(classNoticeEntity);
+        Integer result = classNoticeService.delete(noticeId);
 
-        if (result) {
-            return AjaxResult.success("删除成功");
+        if (result > 0) {
+            return success("删除成功");
         } else {
-            return AjaxResult.error("删除失败");
+            return error("删除失败");
         }
     }
 
+    @PostMapping("/class/notice/set/top")
+    public AjaxResult setTop(@Valid @RequestBody ClassNoticeSetTopDto classNoticeSetTopDto) {
+        Integer result = classNoticeService.setTop(classNoticeSetTopDto.getId(),classNoticeSetTopDto.getType());
+
+        if (result > 0) {
+            return success();
+        } else {
+            return error();
+        }
+    }
 }

@@ -159,4 +159,33 @@ public class AjaxResult extends HashMap<String, Object>
         super.put(key, value);
         return this;
     }
+
+    /**
+     * 设置data数据。
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public AjaxResult putData(String key, Object value) {
+        HashMap<String, Object> dataMap = (HashMap<String, Object>) get(DATA_TAG);
+        if (null == dataMap) {
+            dataMap = new HashMap<>();
+        }
+        dataMap.put(key, value);
+        put(DATA_TAG, dataMap);
+        return this;
+    }
+
+    /**
+     * 替换data数据。
+     *
+     * @param dataMap
+     * @return
+     */
+    public AjaxResult putDataAll(HashMap<String, Object> dataMap) {
+        put(DATA_TAG, dataMap);
+        return this;
+    }
+
 }

@@ -1,12 +1,12 @@
 package com.dotk.web.api.controller;
 
 import com.dotk.web.api.dto.ValidDTo;
+import javax.validation.constraints.Email;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import javax.validation.constraints.Email;
 
 @RestController
 @Slf4j

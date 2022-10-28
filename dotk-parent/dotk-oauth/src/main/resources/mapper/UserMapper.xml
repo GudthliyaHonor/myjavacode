@@ -1,98 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dotk.oauth.infra.mapper.UserMapper">
 
-    <resultMap type="com.dotk.oauth.domain.entity.User" id="UserResult">
-        <result property="id" column="id" />
-        <result property="username" column="username" />
-        <result property="password" column="password" />
-        <result property="salt" column="salt" />
-        <result property="aid" column="aid" />
-        <result property="resetPassword" column="reset_password" />
-        <result property="status" column="status" />
-        <result property="created" column="created" />
-        <result property="updated" column="updated" />
-    </resultMap>
+  <resultMap type="com.dotk.oauth.domain.entity.User" id="UserResult">
+    <result property="id" column="id"/>
+    <result property="username" column="username"/>
+    <result property="password" column="password"/>
+    <result property="salt" column="salt"/>
+    <result property="aid" column="aid"/>
+    <result property="resetPassword" column="reset_password"/>
+    <result property="status" column="status"/>
+    <result property="created" column="created"/>
+    <result property="updated" column="updated"/>
+  </resultMap>
 
-    <sql id="selectUserVo">
-        select id, username, password, salt, aid, reset_password, status, created, updated from user
-    </sql>
+  <sql id="selectUserVo">
+    select id,
+           username,
+           password,
+           salt,
+           aid,
+           reset_password,
+           status,
+           created,
+           updated
+    from user
+  </sql>
 
-    <select id="selectUserList" parameterType="com.dotk.oauth.domain.entity.User" resultMap="UserResult">
-        <include refid="selectUserVo"/>
-        <where>
-            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
-            <if test="password != null  and password != ''"> and password = #{password}</if>
-            <if test="salt != null  and salt != ''"> and salt = #{salt}</if>
-            <if test="aid != null "> and aid = #{aid}</if>
-            <if test="resetPassword != null "> and reset_password = #{resetPassword}</if>
-            <if test="status != null "> and status = #{status}</if>
-            <if test="created != null "> and created = #{created}</if>
-            <if test="updated != null "> and updated = #{updated}</if>
-        </where>
-    </select>
+  <select id="selectUserList" parameterType="com.dotk.oauth.domain.entity.User"
+    resultMap="UserResult">
+    <include refid="selectUserVo"/>
+    <where>
+      <if test="username != null  and username != ''">and username like concat('%', #{username},
+        '%')
+      </if>
+      <if test="password != null  and password != ''">and password = #{password}</if>
+      <if test="salt != null  and salt != ''">and salt = #{salt}</if>
+      <if test="aid != null ">and aid = #{aid}</if>
+      <if test="resetPassword != null ">and reset_password = #{resetPassword}</if>
+      <if test="status != null ">and status = #{status}</if>
+      <if test="created != null ">and created = #{created}</if>
+      <if test="updated != null ">and updated = #{updated}</if>
+    </where>
+  </select>
 
-    <select id="selectUserById" parameterType="Long" resultMap="UserResult">
-        <include refid="selectUserVo"/>
-        where id = #{id}
-    </select>
+  <select id="selectUserById" parameterType="Long" resultMap="UserResult">
+    <include refid="selectUserVo"/>
+    where id = #{id}
+  </select>
 
-    <select id="selectUserByUsername" parameterType="String" resultMap="UserResult">
-        <include refid="selectUserVo"/>
-        where username = #{username} and status = 1
-    </select>
+  <select id="selectUserByUsername" parameterType="String" resultMap="UserResult">
+    <include refid="selectUserVo"/>
+    where username = #{username} and status = 1
+  </select>
 
-    <insert id="insertUser" parameterType="com.dotk.oauth.domain.entity.User">
-        insert into user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">id,</if>
-            <if test="username != null and username != ''">username,</if>
-            <if test="password != null and password != ''">password,</if>
-            <if test="salt != null and salt != ''">salt,</if>
-            <if test="aid != null">aid,</if>
-            <if test="resetPassword != null">reset_password,</if>
-            <if test="status != null">status,</if>
-            <if test="created != null">created,</if>
-            <if test="updated != null">updated,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">#{id},</if>
-            <if test="username != null and username != ''">#{username},</if>
-            <if test="password != null and password != ''">#{password},</if>
-            <if test="salt != null and salt != ''">#{salt},</if>
-            <if test="aid != null">#{aid},</if>
-            <if test="resetPassword != null">#{resetPassword},</if>
-            <if test="status != null">#{status},</if>
-            <if test="created != null">#{created},</if>
-            <if test="updated != null">#{updated},</if>
-        </trim>
-    </insert>
+  <select id="selectUserByUsernameWithAid" parameterType="com.dotk.oauth.domain.entity.User" resultMap="UserResult">
+    <include refid="selectUserVo"/>
+    where username = #{username} and aid = #{aid} and status = 1
+  </select>
 
-    <update id="updateUser" parameterType="com.dotk.oauth.domain.entity.User">
-        update user
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="username != null and username != ''">username = #{username},</if>
-            <if test="password != null and password != ''">password = #{password},</if>
-            <if test="salt != null and salt != ''">salt = #{salt},</if>
-            <if test="aid != null">aid = #{aid},</if>
-            <if test="resetPassword != null">reset_password = #{resetPassword},</if>
-            <if test="status != null">status = #{status},</if>
-            <if test="created != null">created = #{created},</if>
-            <if test="updated != null">updated = #{updated},</if>
-        </trim>
-        where id = #{id}
-    </update>
+  <insert id="insertUser" parameterType="com.dotk.oauth.domain.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">id,</if>
+      <if test="username != null and username != ''">username,</if>
+      <if test="password != null and password != ''">password,</if>
+      <if test="salt != null and salt != ''">salt,</if>
+      <if test="aid != null">aid,</if>
+      <if test="resetPassword != null">reset_password,</if>
+      <if test="status != null">status,</if>
+      <if test="created != null">created,</if>
+      <if test="updated != null">updated,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">#{id},</if>
+      <if test="username != null and username != ''">#{username},</if>
+      <if test="password != null and password != ''">#{password},</if>
+      <if test="salt != null and salt != ''">#{salt},</if>
+      <if test="aid != null">#{aid},</if>
+      <if test="resetPassword != null">#{resetPassword},</if>
+      <if test="status != null">#{status},</if>
+      <if test="created != null">#{created},</if>
+      <if test="updated != null">#{updated},</if>
+    </trim>
+  </insert>
 
-    <delete id="deleteUserById" parameterType="Long">
-        delete from user where id = #{id}
-    </delete>
+  <update id="updateUser" parameterType="com.dotk.oauth.domain.entity.User">
+    update user
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="username != null and username != ''">username = #{username},</if>
+      <if test="password != null and password != ''">password = #{password},</if>
+      <if test="salt != null and salt != ''">salt = #{salt},</if>
+      <if test="aid != null">aid = #{aid},</if>
+      <if test="resetPassword != null">reset_password = #{resetPassword},</if>
+      <if test="status != null">status = #{status},</if>
+      <if test="created != null">created = #{created},</if>
+      <if test="updated != null">updated = #{updated},</if>
+    </trim>
+    where id = #{id}
+  </update>
 
-    <delete id="deleteUserByIds" parameterType="String">
-        delete from user where id in 
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
+  <delete id="deleteUserById" parameterType="Long">
+    delete
+    from user
+    where id = #{id}
+  </delete>
+
+  <delete id="deleteUserByIds" parameterType="String">
+    delete from user where id in
+    <foreach item="id" collection="array" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </delete>
 </mapper>

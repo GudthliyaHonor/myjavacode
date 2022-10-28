@@ -1,23 +1,20 @@
 package com.dotk.web.api.controller;
 
+import com.dotk.core.annotation.ApiRestController;
+import com.dotk.core.controller.BaseController;
 import com.dotk.core.domain.AjaxResult;
 import com.dotk.web.api.dto.SampleDTO;
 import com.dotk.web.domain.entity.Sample;
 import com.dotk.web.domain.service.SampleService;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/sample")
-public class SampleController {
+@ApiRestController("/sample")
+public class SampleController extends BaseController {
 
   @Autowired
   private SampleService sampleService;

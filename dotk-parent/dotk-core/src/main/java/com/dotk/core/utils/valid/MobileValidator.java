@@ -1,10 +1,9 @@
 package com.dotk.core.utils.valid;
 
 
-import org.springframework.util.StringUtils;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import org.springframework.util.StringUtils;
 
 public class MobileValidator implements ConstraintValidator<Mobile, String> {
 

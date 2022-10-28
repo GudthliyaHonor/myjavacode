@@ -28,27 +28,6 @@
     <module>dotk-file</module>
   </modules>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>5.3.8</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>8.0.30</version>
-      </dependency>
-      <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>${org.projectlombok.version}</version>
-      </dependency>
-
-    </dependencies>
-  </dependencyManagement>
 
   <build>
     <resources>

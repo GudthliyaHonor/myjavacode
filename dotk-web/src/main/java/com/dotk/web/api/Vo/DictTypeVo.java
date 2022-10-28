@@ -1,4 +1,4 @@
-package com.dotk.web.api.vo;
+package com.dotk.web.api.Vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

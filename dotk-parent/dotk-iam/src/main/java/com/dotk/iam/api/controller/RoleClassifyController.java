@@ -4,6 +4,7 @@ import com.dotk.core.annotation.ApiRestController;
 import com.dotk.core.controller.BaseController;
 import com.dotk.core.domain.AjaxResult;
 import com.dotk.core.exception.ServiceException;
+import com.dotk.core.utils.SecurityUtils;
 import com.dotk.iam.api.controller.dto.DeleteRoleClassifyDTO;
 import com.dotk.iam.api.controller.dto.QueryRoleClassifyDTO;
 import com.dotk.iam.api.controller.dto.RoleClassifyCreateDTO;
@@ -57,6 +58,8 @@ public class RoleClassifyController extends BaseController {
     @PostMapping("/permission/role/classify/list")
     public AjaxResult list(@Validated @RequestBody QueryRoleClassifyDTO queryRoleClassifyDTO){
         QueryRoleClassifyBO queryRoleClassifyBO= RoleClassifyTransfer.INSTANCE.convert(queryRoleClassifyDTO);
+//        long aid=SecurityUtils.getLoginUser().getAid();
+//        log.info("aid:{}",aid);
         log.info("queryRoleClassifyBO:{}",queryRoleClassifyBO);
         return success(roleClassifyService.list(queryRoleClassifyBO));
     }
